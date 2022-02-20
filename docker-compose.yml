@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ./build/docker/app/Dockerfile
+    tty: true
+    depends_on:
+      - db
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - mysql-datavolume:/var/lib/mysql
+      - ./build/docker/db/my.cnf:/etc/mysql/conf.d/my.cnf
+    env_file:
+      - ./build/docker/db/docker.mysql.env
+    ports:
+      - 3306:3306
+    platform: linux/x86_64
+
+volumes:
+  mysql-datavolume:
+    driver: local
+
