@@ -6,6 +6,8 @@ services:
       context: .
       dockerfile: ./build/docker/app/Dockerfile
     tty: true
+    ports:
+      - "8080:8080"
     depends_on:
       - db
 
