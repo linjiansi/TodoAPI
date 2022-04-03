@@ -1,4 +1,4 @@
-module github.com/linjiansi/twitter
+module github.com/linjiansi/TodoAPI
 
 go 1.17
 
