@@ -8,6 +8,14 @@ services:
     tty: true
     ports:
       - "8080:8080"
+    environment:
+      APP_PORT: 8080
+      APP_DBHOST: db
+      APP_DBPORT: 3306
+      APP_DBUSERNAME: root
+      APP_DBPASSWORD: password
+      APP_DBNAME: todo_api_dev
+      APP_SECRETKEY: JDJhJDEwJDE5clFvMFJJdkI1T0xBSlF6ci50Ny42am84Vjd4YXYwYVN0UHFuZTF4N1ZlbzFHdjBzd0dh
     depends_on:
       - db
 
