@@ -25,7 +25,7 @@ func NewTodo(title, content string) (*Todo, error) {
 	return todo, nil
 }
 
-func (t *Todo) Set(title, content string) (error) {
+func (t *Todo) Set(title, content string) error {
 	if title != "" && content != "" {
 		t.Title = title
 		t.Content = content
