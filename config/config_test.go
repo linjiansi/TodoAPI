@@ -33,9 +33,9 @@ func TestEnvOrDefault(t *testing.T) {
 		},
 	}
 
+	t.Setenv("testKey", "testValue")
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			t.Setenv(tt.args.key, tt.want)
 			got := envOrDefault(tt.args.key, tt.args.defaultValue)
 
 			if tt.want != got {
