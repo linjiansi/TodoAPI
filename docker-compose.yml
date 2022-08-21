@@ -3,6 +3,8 @@ version: '3.8'
 services:
   app:
     build:
+      args:
+        - target=dev
       context: .
       dockerfile: ./build/docker/app/Dockerfile
     tty: true
@@ -16,6 +18,8 @@ services:
       APP_DBPASSWORD: password
       APP_DBNAME: todo_api_dev
       APP_SECRETKEY: JDJhJDEwJDE5clFvMFJJdkI1T0xBSlF6ci50Ny42am84Vjd4YXYwYVN0UHFuZTF4N1ZlbzFHdjBzd0dh
+    volumes:
+      - .:/app
     depends_on:
       - db
 
@@ -33,4 +37,3 @@ services:
 volumes:
   mysql-datavolume:
     driver: local
-

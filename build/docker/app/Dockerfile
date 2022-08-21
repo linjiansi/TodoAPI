@@ -1,20 +1,30 @@
-FROM golang:1.17.3-alpine3.14 as builder
-RUN apk update && apk add make
+FROM golang:1.18.0-bullseye as deploy-builder
 
-ENV GO111MODULE=on
-ENV GOOS=linux
-ENV GOARCH=amd64
-
-WORKDIR /usr/src/app
+WORKDIR /app
 
 COPY go.mod go.sum ./
 RUN go mod download
 COPY ./ ./
 
-CMD ["go", "run", "./cmd/main.go"]
-#RUN make
+RUN go build -trimpath -ldflags "-w -s" -o /app
 
-#FROM gcr.io/distroless/base:1e4a8bb3ad03f71b572cbcb3bbc25f3fd8d0ff14
-#EXPOSE 8080
-#COPY --from=builder /usr/src/app/bin/app /usr/local/bin
-#CMD ["/usr/local/bin"]
+
+FROM debian:bullseye-slim as deploy
+
+RUN apt-get update
+
+COPY --from=deploy-builder /app/app .
+
+CMD ["./app"]
+
+
+FROM golang:1.18.0 as dev
+
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY ./ ./
+
+RUN go install github.com/cosmtrek/air@latest
+
+CMD ["air", "-c", "./build/docker/app/.air.toml"]
